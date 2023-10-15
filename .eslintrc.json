@@ -1,0 +1,42 @@
+{
+    "env": {
+      "commonjs": true,
+      "node": true,
+      "es6": true
+    },
+    "extends": [
+      "airbnb-typescript/base",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "prettier",
+      "import",
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/naming-convention": "off",
+      "import/extensions": "off",
+      "no-throw-literal": "off",
+      "@typescript-eslint/no-throw-literal": ["error"],
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+      "camelcase": "off",
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "parser": "flow"
+        },
+        {
+          "useTabs": true,
+          "parser": "flow"
+        }
+      ]
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": ["**/tsconfig.json"],
+      // "project": "./tsconfig.json",
+      "ecmaVersion": 2021
+    }
+  }

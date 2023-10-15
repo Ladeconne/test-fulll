@@ -1,0 +1,27 @@
+{
+  "name": "backend-ddd-and-cqrs",
+  "version": "1.0.0",
+  "description": "Test for fulll",
+  "main": "src/index.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
+    "test": "cucumber-js"
+  },
+  "author": "Yves Hurdequint",
+  "license": "ISC",
+  "engines": {
+    "node": "18.15",
+    "npm": "9.5"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.3.0",
+    "@types/cucumber": "^6.0.1",
+    "@types/node": "^14.0.27",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "commander": "^11.0.0"
+  }
+}
