@@ -14,20 +14,18 @@
     "noImplicitAny": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "outDir": "dist",
-    "rootDir": "./",
-    "baseUrl": "src",
+    "outDir": "./dist",
+    "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["src/*"],
+      "@modules/*": ["src/modules/*"],
     },
     "inlineSourceMap": true,
     "removeComments": true
   },
   "include": [
-    "src", "features/step_definitions",
-  ],
+    "src"
+, "features"  ],
   "exclude": [
     "node_modules",
     "dist"

@@ -42,10 +42,19 @@ export const createVehicle = async (vehicle, plateNumber) => {
 
 export const parkVehicle = async (vehicle: Vehicle, location) => {
   const parkedVehicle = vehicles.find(
-    (vehicle) => vehicle.vehicleId === vehicle.vehicleId
+    (vhc) => vhc.vehicleId === vehicle.vehicleId
   );
   if (!parkedVehicle) {
     throw new Error("Fleet not found");
   }
   parkedVehicle.location = location;
 };
+
+export const getUserById = async (userId) =>
+  users.find((user) => user.userId === userId);
+
+export const fetchFleetById = async (fleetId) =>
+  fleets.find((fleet) => fleet.fleetId === fleetId);
+
+export const getVehicleByPlateNumber = async (plateNumber) =>
+  vehicles.find((vehicle) => vehicle.plateNumber === plateNumber);

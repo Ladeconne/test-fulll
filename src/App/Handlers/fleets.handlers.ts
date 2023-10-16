@@ -4,7 +4,6 @@ import { db } from "@/Infra/db";
 export const handleCreateFleetCommand = ({ userId, fleetId }) => {
   try {
     Fleet(db).createFleet(userId, fleetId);
-    return fleetId;
   } catch (error: any) {
     console.error(`Error creating fleet: ${error.message}`);
   }

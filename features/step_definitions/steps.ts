@@ -6,23 +6,22 @@ import * as fleetQueries from "../../src/App/Queries/fleets.queries";
 import * as vehicleQueries from "../../src/App/Queries/vehicles.queries";
 import assert from "assert";
 
-Given("my fleet", function () {
+Given("my fleet", () => {
   const userId = userCommands.createUser();
-
   fleetCommands.createFleet(userId);
 });
 
-Given("a vehicle", function () {
+Given("a vehicle", () => {
   vehicleCommands.createVehicle("ABC123");
 });
 
-When("I register this vehicle into my fleet", function () {
-  fleetCommands.registerVehicle(1, "ABC123");
+When("I register this vehicle into my fleet", async () => {
+  await fleetCommands.registerVehicle(1, "ABC123");
 });
 
-Then("this vehicle should be part of my vehicle fleet", function () {
-  const fleet = fleetQueries.fetchFleetById(1);
-  const vehicle = vehicleQueries.fetchVehicleByPlateNumber("ABC123");
+Then("this vehicle should be part of my vehicle fleet", async () => {
+  const fleet = await fleetQueries.fetchFleetById(1);
+  const vehicle = await vehicleQueries.fetchVehicleByPlateNumber("ABC123");
   assert(
     fleet?.vehicles.find(
       (vehicle) => vehicle.plateNumber.toString() === "ABC123"
@@ -30,41 +29,42 @@ Then("this vehicle should be part of my vehicle fleet", function () {
   );
 });
 
-Given("the fleet of another user", function () {
+Given("the fleet of another user", () => {
   const userId = userCommands.createUser();
   fleetCommands.createFleet(userId);
+  c;
 });
 
 Given(
   "this vehicle has been registered into the other user's fleet",
-  function () {
-    fleetCommands.registerVehicle(2, "ABC123");
+  async () => {
+    await fleetCommands.registerVehicle(2, "ABC123");
   }
 );
 
-Given("I have registered this vehicle into my fleet", function () {
-  fleetCommands.registerVehicle(1, "ABC123");
+Given("I have registered this vehicle into my fleet", async () => {
+  await fleetCommands.registerVehicle(1, "ABC123");
 });
 
-When("I try to register this vehicle into my fleet", function () {
-  fleetCommands.registerVehicle(1, "ABC123");
+When("I try to register this vehicle into my fleet", async () => {
+  await fleetCommands.registerVehicle(1, "ABC123");
 });
 
 Then(
   "I should be informed this this vehicle has already been registered into my fleet",
-  function () {}
+  () => {}
 );
 
-Given("a location", function () {});
+Given("a location", () => {});
 
-When("I park my vehicle at this location", function () {
-  fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
+When("I park my vehicle at this location", async () => {
+  await fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
 });
 
 Then(
   "the known location of my vehicle should verify this location",
-  function () {
-    const vehicle = vehicleQueries.fetchVehicleByPlateNumber("ABC123");
+  async () => {
+    const vehicle = await vehicleQueries.fetchVehicleByPlateNumber("ABC123");
 
     assert(
       vehicle?.location?.lat === 1 &&
@@ -74,15 +74,15 @@ Then(
   }
 );
 
-Given("my vehicle has been parked into this location", function () {
-  fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
+Given("my vehicle has been parked into this location", async () => {
+  await fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
 });
 
-When("I try to park my vehicle at this location", function () {
-  fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
+When("I try to park my vehicle at this location", async () => {
+  await fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
 });
 
 Then(
   "I should be informed that my vehicle is already parked at this location",
-  function () {}
+  () => {}
 );

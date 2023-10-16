@@ -3,7 +3,7 @@ import { IFleet, IVehicle } from "../Types/models";
 type Fleet = {
   initiateFleet: () => string;
   createFleet: (fleetId: string, userId: string) => void;
-  fetchFleetById: (fleetId: string) => IFleet;
+  fetchFleetById: (fleetId: string) => Promise<IFleet>;
   registerVehicle: (fleet: IFleet, vehicle: IVehicle) => void;
 };
 
@@ -16,7 +16,7 @@ export const Fleet: (db?: any) => Fleet = (db) => {
     db.createFleet(fleetId, userId);
   };
 
-  const fetchFleetById = (fleetId: string) => {
+  const fetchFleetById = async (fleetId: string) => {
     return db.fetchFleetById(fleetId);
   };
 

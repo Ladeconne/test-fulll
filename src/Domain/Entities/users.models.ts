@@ -3,7 +3,7 @@ import { IUser } from "../Types/models";
 type User = {
   initiateUser: () => string;
   createUser: (userId: string) => void;
-  getUserById: (userId: string) => IUser;
+  getUserById: (userId: string) => Promise<IUser>;
 };
 
 export const User: (db: any) => User = (db) => {
@@ -15,7 +15,7 @@ export const User: (db: any) => User = (db) => {
     db.createUser(userId);
   };
 
-  const getUserById = (userId: string) => {
+  const getUserById = async (userId: string) => {
     return db.getUserById(userId);
   };
 

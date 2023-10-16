@@ -11,16 +11,17 @@ export const createFleet = (userId) => {
   return fleetId;
 };
 
-export const registerVehicle = (fleetId, vehiclePlateNumber) => {
-  const fleet = fleetHandler.fetchFleetById(fleetId);
+export const registerVehicle = async (fleetId, vehiclePlateNumber) => {
+  const fleet = await fleetHandler.fetchFleetById(fleetId);
   if (!fleet) return console.log(`Fleet ${fleetId} does not exist`);
 
-  const vehicle = vehicleHandler.getVehicleByPlateNumber(vehiclePlateNumber);
+  const vehicle = await vehicleHandler.getVehicleByPlateNumber(
+    vehiclePlateNumber
+  );
   if (!vehicle)
     return console.log(
       `Vehicle with plate number ${vehiclePlateNumber} does not exist`
     );
-
   const isAlreadyRegistered = fleet.vehicles.find(
     (vehicle) => vehicle.plateNumber === vehiclePlateNumber
   );
@@ -33,11 +34,11 @@ export const registerVehicle = (fleetId, vehiclePlateNumber) => {
   return vehicle.id;
 };
 
-export const parkVehicle = (fleetId, vehiclePlateNumber, location) => {
-  const fleet = fleetHandler.fetchFleetById(fleetId);
+export const parkVehicle = async (fleetId, vehiclePlateNumber, location) => {
+  const fleet = await fleetHandler.fetchFleetById(fleetId);
   if (!fleet) return console.log(`Fleet ${fleetId} does not exist`);
 
-  const vehicle = vehicleHandler.getVehicleByPlateNumber(
+  const vehicle = await vehicleHandler.getVehicleByPlateNumber(
     fleet.vehicles.find((vehicle) => vehicle.plateNumber === vehiclePlateNumber)
   );
 

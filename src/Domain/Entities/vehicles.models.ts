@@ -4,7 +4,7 @@ type Vehicle = {
   createVehicle: (vehicleId: any, plateNumber: string) => void;
   initiateVehicle: () => any;
   parkVehicle: (vehicle: IVehicle, location: ILocation) => void;
-  getVehicleByPlateNumber: (plateNumber: string) => IVehicle;
+  getVehicleByPlateNumber: (plateNumber: string) => Promise<IVehicle>;
 };
 
 export const Vehicle: (db: any) => Vehicle = (db) => {
@@ -20,7 +20,7 @@ export const Vehicle: (db: any) => Vehicle = (db) => {
     db.parkVehicle(vehicle, location);
   };
 
-  const getVehicleByPlateNumber = (plateNumber) => {
+  const getVehicleByPlateNumber = async (plateNumber) => {
     return db.getVehicleByPlateNumber(plateNumber);
   };
 
