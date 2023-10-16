@@ -1,5 +1,6 @@
-import { Vehicle } from "../../Domain/Entities/vehicles.models"
+import { Vehicle } from "@/Domain/Entities/vehicles.models";
+import { db } from "@/Infra/db";
 
 export const fetchVehicleByPlateNumber = (plateNumber) => {
-    return Vehicle.vehicles.find((vehicle) => vehicle.plateNumber === plateNumber);
+  return Vehicle(db).getVehicleByPlateNumber(plateNumber);
 };

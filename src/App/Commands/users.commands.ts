@@ -1,12 +1,10 @@
-import { User } from '../../Domain/Entities/users.models'
-import * as userHandler from '../Handlers/users.handlers';
-
+import { User } from "@/Domain/Entities/users.models";
+import * as userHandler from "@/App/Handlers/users.handlers";
+import { db } from "@/Infra/db";
 
 export const createUser = () => {
-    const userId = User.generateUserId();
+  const userId = User(db).initiateUser();
+  userHandler.handleCreateUserCommand(userId);
 
-    userHandler.handleCreateUserCommand(userId)
-
-    return userId
-}
-
+  return userId;
+};

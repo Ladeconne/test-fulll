@@ -1,4 +1,4 @@
-import * as fleetCommands from '../App/Commands/fleets.commands';
+import * as fleetCommands from '@/App/Commands/fleets.commands';
 import { Command } from 'commander';
 
 const program = new Command();

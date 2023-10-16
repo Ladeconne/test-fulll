@@ -1,13 +1,14 @@
-import { User } from '../../Domain/Entities/users.models'
+import { User } from "@/Domain/Entities/users.models";
+import { db } from "@/Infra/db";
 
 export const handleCreateUserCommand = (userId) => {
-    try {
-        User.createUser(userId)
-    } catch (error: any) {
-        console.error(`Error creating user: ${error.message}`);
-    }
-}
+  try {
+    User(db).createUser(userId);
+  } catch (error: any) {
+    console.error(`Error creating user: ${error.message}`);
+  }
+};
 
 export const getUserById = (userId) => {
-    return User.users.find((user) => user.userId === userId);
-}
+  return User(db).getUserById(userId);
+};

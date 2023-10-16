@@ -1,45 +1,37 @@
-import { User } from "./users.models";
-import { Vehicle } from "./vehicles.models";
+import { IFleet, IVehicle } from "../Types/models";
 
-export class Fleet {
+type Fleet = {
+  initiateFleet: () => string;
+  createFleet: (fleetId: string, userId: string) => void;
+  fetchFleetById: (fleetId: string) => IFleet;
+  registerVehicle: (fleet: IFleet, vehicle: IVehicle) => void;
+};
 
-    fleetId: string;
-    userId: User;
-    vehicles: Vehicle[];
+export const Fleet: (db?: any) => Fleet = (db) => {
+  const initiateFleet = () => {
+    return db.initiateFleet();
+  };
 
-    static fleets: Fleet[] = [];
+  const createFleet = (fleetId: string, userId: string) => {
+    db.createFleet(fleetId, userId);
+  };
 
-    constructor(fleetId, userId) {
-        this.fleetId = fleetId;
-        this.userId = userId;
-        this.vehicles = [];
+  const fetchFleetById = (fleetId: string) => {
+    return db.fetchFleetById(fleetId);
+  };
+
+  const registerVehicle = (fleet: IFleet, vehicle: IVehicle) => {
+    if (!fleet.vehicles.find((vehicle) => vehicle.id === vehicle.id)) {
+      db.registerVehicleToFleet(fleet.id, vehicle);
+    } else {
+      throw new Error("Vehicle already registered in this fleet");
     }
+  };
 
-    static generateFleetId() {
-        // Implement logic to generate a unique fleet id
-        return this.fleets.length + 1;
-    }
-
-    static createFleet({fleetId, userId}: {fleetId: number, userId: number}) {
-        const fleet = new Fleet(fleetId, userId);
-        this.fleets.push(fleet);
-        return fleet;
-    }
-    
-    static fetchFleetById(fleetId) {
-        return Fleet.fleets.find((fleet) => fleet.fleetId === fleetId);
-    }
-    
-    registerVehicle(vehicle: Vehicle) {
-        this.vehicles.push(vehicle);
-    }
-
-    parkVehicle(vehicle, location) {
-        // Implement logic to park a vehicle at a location
-    }
-
-    getVehicleByPlateNumber(vehiclePlateNumber) {
-        return this.vehicles.find((vehicle) => vehicle.plateNumber === vehiclePlateNumber);
-    }
-
-}
+  return {
+    initiateFleet,
+    createFleet,
+    fetchFleetById,
+    registerVehicle,
+  };
+};

@@ -1,31 +1,27 @@
-import { Fleet } from "./fleets.models";
+import { IUser } from "../Types/models";
 
-export class User {
-    userId: string;
-    fleets: Fleet[];
+type User = {
+  initiateUser: () => string;
+  createUser: (userId: string) => void;
+  getUserById: (userId: string) => IUser;
+};
 
-    static users: User[] = [];
+export const User: (db: any) => User = (db) => {
+  const initiateUser = () => {
+    return db.initiateUser();
+  };
 
-    constructor(userId) {
-        this.userId = userId;
-        this.fleets = [];
-    }
+  const createUser = (userId: string) => {
+    db.createUser(userId);
+  };
 
-    static generateUserId() {
-        // Implement logic to generate a unique user id
-        return this.users.length + 1;
-    }
+  const getUserById = (userId: string) => {
+    return db.getUserById(userId);
+  };
 
-    static createUser(userId: number) {
-        const user = new User(userId);
-        this.users.push(user);
-    }
-
-    static registerVehicle(fleet, vehicle) {
-        if (!fleet.hasVehicle(vehicle)) {
-            fleet.registerVehicle(vehicle);
-        } else {
-            throw new Error("Vehicle already registered in this fleet");
-        }
-    }
-}
+  return {
+    initiateUser,
+    createUser,
+    getUserById,
+  };
+};

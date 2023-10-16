@@ -1,30 +1,33 @@
-import { PlateNumber } from "../valueObjects/plateNumbers";
-import Location from '../valueObjects/locations'
+import { ILocation, IVehicle } from "@/Domain/Types/models";
 
-export class Vehicle {
-    vehicleId: number;
-    plateNumber: PlateNumber;
-    location: Location | null;
+type Vehicle = {
+  createVehicle: (vehicleId: any, plateNumber: string) => void;
+  initiateVehicle: () => any;
+  parkVehicle: (vehicle: IVehicle, location: ILocation) => void;
+  getVehicleByPlateNumber: (plateNumber: string) => IVehicle;
+};
 
-    static vehicles: Vehicle[] = [];
+export const Vehicle: (db: any) => Vehicle = (db) => {
+  const initiateVehicle = () => {
+    return db.initiateVehicle();
+  };
 
-    constructor(vehicleId: number, plateNumber: PlateNumber) {
-        this.vehicleId = vehicleId;
-        this.plateNumber = plateNumber;
-        this.location = null;
-    }
+  const createVehicle = (vehicleId, plateNumber) => {
+    db.createVehicle(vehicleId, plateNumber);
+  };
 
-    static createVehicle({vehicleId, plateNumber}: {vehicleId: number, plateNumber: PlateNumber}) {
-        const vehicle = new Vehicle(vehicleId, plateNumber);
-        this.vehicles.push(vehicle);
-    }
+  const parkVehicle = (vehicle, location) => {
+    db.parkVehicle(vehicle, location);
+  };
 
-    static generateVehicleId() {
-        // Implement logic to generate a unique vehicle id
-        return this.vehicles.length + 1;
-    }
+  const getVehicleByPlateNumber = (plateNumber) => {
+    return db.getVehicleByPlateNumber(plateNumber);
+  };
 
-    parkVehicle(lat, lng, alt) {
-        this.location = new Location(lat, lng, alt);
-    }
-}
+  return {
+    initiateVehicle,
+    createVehicle,
+    parkVehicle,
+    getVehicleByPlateNumber,
+  };
+};
