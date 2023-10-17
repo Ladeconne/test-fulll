@@ -3,10 +3,10 @@ import { Model, model, Schema } from "mongoose";
 
 const fleetSchema: Schema<IFleet> = new Schema<IFleet>(
   {
-    id: {
+    userId: {
       type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
-      unique: true,
     },
     vehicles: [
       {
@@ -25,6 +25,13 @@ const fleetSchema: Schema<IFleet> = new Schema<IFleet>(
     collection: "fleets",
   }
 );
+
+fleetSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+fleetSchema.set("toObject", { virtuals: true });
+fleetSchema.set("toJSON", { virtuals: true });
 
 const Fleet: Model<IFleet> = model<IFleet>("Fleet", fleetSchema);
 

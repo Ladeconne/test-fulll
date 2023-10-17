@@ -7,37 +7,42 @@ export const initiateUser = () => {
 };
 
 export const createUser = async (user) => {
-  await user.save();
+  try {
+    await user.save();
+  } catch (error) {
+    console.error(`Error creating user: ${error}`);
+  }
 };
 
-export const initiateFleet = () => {
-  return new Fleet();
+export const initiateFleet = (userId) => {
+  return new Fleet({
+    userId,
+  });
 };
 
-export const createFleet = async (fleet, userId) => {
-  fleet.userId = userId;
+export const createFleet = async (fleet) => {
   await fleet.save();
 };
 
-export const registerVehicleToFleet = async (fleetId, vehicle) => {
-  const fleet = await Fleet.findOne({ id: fleetId });
-  if (!fleet) {
-    throw new Error("Fleet not found");
-  }
+export const registerVehicleToFleet = async (fleet, vehicle) => {
   fleet.vehicles.push(vehicle);
   await fleet.save();
 };
 
-export const initiateVehicle = () => {
-  return new Vehicle();
+export const initiateVehicle = (plateNumber, fleet) => {
+  return new Vehicle({ plateNumber, fleetId: fleet.id });
 };
 
-export const createVehicle = async (vehicle, plateNumber) => {
-  vehicle.plateNumber = plateNumber;
+export const createVehicle = async (vehicle) => {
   await vehicle.save();
 };
 
 export const parkVehicle = async (vehicle, location) => {
   vehicle.location = location;
+  await vehicle.save();
+};
+
+export const addFleetIdToVehicle = async (vehicle, fleetId) => {
+  vehicle.fleetId = fleetId;
   await vehicle.save();
 };

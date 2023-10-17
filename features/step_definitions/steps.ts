@@ -12,11 +12,11 @@ Given("my fleet", () => {
 });
 
 Given("a vehicle", () => {
-  vehicleCommands.createVehicle("ABC123");
+  vehicleCommands.createVehicle("ABC123", 1);
 });
 
-When("I register this vehicle into my fleet", async () => {
-  await fleetCommands.registerVehicle(1, "ABC123");
+When("I register this vehicle into my fleet", () => {
+  fleetCommands.registerVehicle(1, "ABC123");
 });
 
 Then("this vehicle should be part of my vehicle fleet", async () => {
@@ -32,22 +32,18 @@ Then("this vehicle should be part of my vehicle fleet", async () => {
 Given("the fleet of another user", () => {
   const userId = userCommands.createUser();
   fleetCommands.createFleet(userId);
-  c;
 });
 
-Given(
-  "this vehicle has been registered into the other user's fleet",
-  async () => {
-    await fleetCommands.registerVehicle(2, "ABC123");
-  }
-);
-
-Given("I have registered this vehicle into my fleet", async () => {
-  await fleetCommands.registerVehicle(1, "ABC123");
+Given("this vehicle has been registered into the other user's fleet", () => {
+  fleetCommands.registerVehicle(2, "ABC123");
 });
 
-When("I try to register this vehicle into my fleet", async () => {
-  await fleetCommands.registerVehicle(1, "ABC123");
+Given("I have registered this vehicle into my fleet", () => {
+  fleetCommands.registerVehicle(1, "ABC123");
+});
+
+When("I try to register this vehicle into my fleet", () => {
+  fleetCommands.registerVehicle(1, "ABC123");
 });
 
 Then(
@@ -57,8 +53,8 @@ Then(
 
 Given("a location", () => {});
 
-When("I park my vehicle at this location", async () => {
-  await fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
+When("I park my vehicle at this location", () => {
+  fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
 });
 
 Then(
@@ -74,12 +70,16 @@ Then(
   }
 );
 
-Given("my vehicle has been parked into this location", async () => {
-  await fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
+Given("my vehicle has been parked into this location", () => {
+  setTimeout(async () => {
+    await fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
+  }, 100);
 });
 
-When("I try to park my vehicle at this location", async () => {
-  await fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
+When("I try to park my vehicle at this location", () => {
+  setTimeout(async () => {
+    await fleetCommands.parkVehicle(1, "ABC123", { lat: 1, lng: 1, alt: 2 });
+  }, 100);
 });
 
 Then(

@@ -1,13 +1,8 @@
 import { IUser } from "@/Domain/Types/models";
-import { Model, model, ObjectId, Schema } from "mongoose";
+import { Model, model, Schema } from "mongoose";
 
 const userSchema: Schema<IUser> = new Schema<IUser>(
   {
-    id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      unique: true,
-    },
     fleets: [
       {
         type: Schema.Types.ObjectId,
@@ -25,6 +20,13 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
     collection: "users",
   }
 );
+
+userSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
 
 const User: Model<IUser> = model<IUser>("User", userSchema);
 

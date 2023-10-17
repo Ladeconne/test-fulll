@@ -6,15 +6,9 @@ export const getVehicleByPlateNumber = (plateNumber) => {
   return Vehicle(db).getVehicleByPlateNumber(plateNumber);
 };
 
-export const handleCreateVehicleCommand = ({
-  vehicleId,
-  plateNumber,
-}: {
-  vehicleId: number;
-  plateNumber: string;
-}) => {
+export const handleCreateVehicleCommand = (vehicle: IVehicle) => {
   try {
-    Vehicle(db).createVehicle(vehicleId, plateNumber);
+    Vehicle(db).createVehicle(vehicle);
   } catch (error: any) {
     console.error(`Error creating fleet: ${error.message}`);
   }
@@ -44,5 +38,13 @@ export const handleParkVehicleCommand = ({
     });
   } catch (error: any) {
     console.error(`Error localizing vehicle: ${error.message}`);
+  }
+};
+
+export const addFleetIdToVehicle = (vehicle: IVehicle, fleetId: string) => {
+  try {
+    Vehicle(db).addFleetIdToVehicle(vehicle, fleetId);
+  } catch (error: any) {
+    console.error(`Error adding vehicle to fleet: ${error.message}`);
   }
 };

@@ -1,13 +1,13 @@
-import { User } from "./User.class";
 import { Vehicle } from "./Vehicle.class";
 
 export class Fleet {
-  fleetId: string;
-  userId?: User;
+  id: string;
+  userId: any;
   vehicles: Vehicle[];
 
   constructor(fleetId) {
-    this.fleetId = fleetId;
+    this.id = fleetId;
+    this.userId = null;
     this.vehicles = [];
   }
 }

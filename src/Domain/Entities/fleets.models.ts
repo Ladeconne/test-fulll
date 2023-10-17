@@ -1,28 +1,33 @@
+import mongoose from "mongoose";
 import { IFleet, IVehicle } from "../Types/models";
 
 type Fleet = {
-  initiateFleet: () => string;
-  createFleet: (fleetId: string, userId: string) => void;
+  initiateFleet: (userId: any) => IFleet;
+  createFleet: (fleet: IFleet) => void;
   fetchFleetById: (fleetId: string) => Promise<IFleet>;
-  registerVehicle: (fleet: IFleet, vehicle: IVehicle) => void;
+  registerVehicle: (fleet: IFleet, vehicleId: any) => void;
 };
 
 export const Fleet: (db?: any) => Fleet = (db) => {
-  const initiateFleet = () => {
-    return db.initiateFleet();
+  const initiateFleet = (userId) => {
+    return db.initiateFleet(userId);
   };
 
-  const createFleet = (fleetId: string, userId: string) => {
-    db.createFleet(fleetId, userId);
+  const createFleet = (fleet: IFleet) => {
+    db.createFleet(fleet);
   };
 
   const fetchFleetById = async (fleetId: string) => {
     return db.fetchFleetById(fleetId);
   };
 
-  const registerVehicle = (fleet: IFleet, vehicle: IVehicle) => {
-    if (!fleet.vehicles.find((vehicle) => vehicle.id === vehicle.id)) {
-      db.registerVehicleToFleet(fleet.id, vehicle);
+  const registerVehicle = (fleet: IFleet, vehicleId: any) => {
+    if (
+      !fleet.vehicles.find((vehicle) =>
+        vehicle.equals(new mongoose.Types.ObjectId(vehicleId))
+      )
+    ) {
+      db.registerVehicleToFleet(fleet, vehicleId);
     } else {
       throw new Error("Vehicle already registered in this fleet");
     }

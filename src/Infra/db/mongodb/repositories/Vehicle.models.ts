@@ -3,11 +3,6 @@ import { Model, model, Schema } from "mongoose";
 
 const vehicleSchema: Schema<IVehicle> = new Schema<IVehicle>(
   {
-    id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      unique: true,
-    },
     location: {
       type: Schema.Types.Mixed,
       required: false,
@@ -15,6 +10,11 @@ const vehicleSchema: Schema<IVehicle> = new Schema<IVehicle>(
     plateNumber: {
       type: Schema.Types.String,
       required: true,
+    },
+    fleetId: {
+      type: Schema.Types.ObjectId,
+      ref: "Fleet",
+      required: false,
     },
   },
   {
@@ -25,6 +25,13 @@ const vehicleSchema: Schema<IVehicle> = new Schema<IVehicle>(
     collection: "vehicles",
   }
 );
+
+vehicleSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+vehicleSchema.set("toObject", { virtuals: true });
+vehicleSchema.set("toJSON", { virtuals: true });
 
 const Vehicle: Model<IVehicle> = model<IVehicle>("Vehicle", vehicleSchema);
 

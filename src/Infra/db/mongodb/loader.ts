@@ -1,15 +1,14 @@
-import mongoose from 'mongoose';
-import { mongo } from '@/App/Configs/mongo';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import mongoose from "mongoose";
+import { mongo } from "@/App/Configs/mongo";
 
 export default async () => {
-    console.log('Init mongo connection...', mongo.url);
-    const mongod = await MongoMemoryServer.create();
-    const uri = await mongod.getUri();
-    const instance = await mongoose.connect(uri, {
-        dbName: `${mongo.dbName}_test`,
-    });
+  console.log("Init mongo connection...", mongo.url);
+  const instance = await mongoose.connect(mongo.url, {
+    user: mongo.user,
+    pass: mongo.password,
+    dbName: mongo.dbName,
+  });
 
-    console.log('Mongo connected!');
-    return instance;
-}
+  console.log("Mongo connected!");
+  return instance;
+};

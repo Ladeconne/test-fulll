@@ -2,10 +2,10 @@ import { Vehicle } from "../../Domain/Entities/vehicles.models";
 import { handleCreateVehicleCommand } from "../Handlers/vehicles.handlers";
 import { db } from "@/Infra/db";
 
-export const createVehicle = (plateNumber) => {
-  const vehicleId = Vehicle(db).initiateVehicle();
+export const createVehicle = (plateNumber, fleet) => {
+  const vehicle = Vehicle(db).initiateVehicle(plateNumber, fleet);
 
-  handleCreateVehicleCommand({ vehicleId, plateNumber });
+  handleCreateVehicleCommand(vehicle);
 
-  return vehicleId;
+  return vehicle;
 };
